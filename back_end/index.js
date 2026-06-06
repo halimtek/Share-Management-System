@@ -26,8 +26,10 @@ app.all('*', (req,res,next) => {
 console.log("error");
 next();
 })
-mongoose.connect(process.env.MONGO_URL).then(()=>{
+mongoose.connect(process.env.MONGODB_URI).then(()=>{
+
     app.listen(port,()=>{
+        console.log("connected to database");
         console.log(`server is running at port ${port}....`);
     })
 });

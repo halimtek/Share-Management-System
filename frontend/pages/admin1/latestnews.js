@@ -17,7 +17,8 @@ export default function LatestNews({ news }) {
   import fetch from 'node-fetch';
 
   export async function getStaticProps() {
-    const response = await fetch('https://api.example.com/latest-news');
+    // const response = await fetch('https://api.example.com/latest-news');
+    const response = await fetch('http://localhost:5000/api/adminnews');
     const news = await response.json();
     return {
       props: {

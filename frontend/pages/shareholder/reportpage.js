@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import ReportCard from '../components/ReportCard'
+// import ReportCard from '../components/ReportCard'
 
 const ReportPage = () => {
   const [reports, setReports] = useState([])

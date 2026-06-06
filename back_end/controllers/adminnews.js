@@ -1,5 +1,5 @@
 const asyncHandler = require('express-async-handler');
-const AdminNews = require('../model/adminNews');
+const AdminNews = require('../model/adminnews');
 const { default: mongoose } = require('mongoose');
 const createAdminNews=asyncHandler(async(req,res)=>{
   const {title,content,description}=req.body;
