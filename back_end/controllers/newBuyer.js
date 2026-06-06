@@ -270,47 +270,48 @@ const createNew = asyncHandler(async (req, res) => {
   try {
 
     request(options, async function (error, response) {
-
-      if (error) {
-        console.log("REQUEST ERROR:", error);
-
-        return res.status(500).json({
-          message: "something were wrong please cheak ur internet connection"
-        });
-      }
-
-      try {
-
-        const result = JSON.parse(response.body);
-
-        console.log("CHAPA RESPONSE:", result);
-
-        if (!result || !result.data || !result.data.checkout_url) {
-
-          return res.status(500).json({
-            message: "Failed to initialize payment",
-            response: result
-          });
-        }
-
-        await share.save();
-
-        console.log("saved");
-
-        return res.json({
-          message: result.data.checkout_url
-        });
-
-      } catch (err) {
-
-        console.log("JSON PARSE ERROR:", err);
-
-        return res.status(500).json({
-          message: "Invalid response from Chapa"
-        });
-      }
-
+  if (error) {
+    return res.status(500).json({
+      error: "network error, please check internet connection"
     });
+  }
+
+  let result;
+  try {
+    result = JSON.parse(response.body);
+  } catch (e) {
+    return res.status(500).json({
+      error: "invalid response from chapa",
+      raw: response.body
+    });
+  }
+
+  console.log("CHAPA RESPONSE:", result);
+
+  if (!result || result.status !== "success" || !result.data?.checkout_url) {
+    return res.status(500).json({
+      message: "Failed to initialize payment",
+      response: result
+    });
+  }
+
+  try {
+    await share.save();
+    console.log("saved successfully");
+
+    return res.json({
+      message: result.data.checkout_url
+    });
+
+  } catch (dbError) {
+    console.log("DB ERROR:", dbError);
+
+    return res.status(500).json({
+      message: "user saved failed",
+      error: dbError.message
+    });
+  }
+});
 
   } catch (error) {
 
