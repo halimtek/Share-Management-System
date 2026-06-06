@@ -7,7 +7,14 @@ const {errorHandler}=require('./middleware/errorMiddleware');
 const app=express();
 const cors = require('cors')
 mongoose.Promise=global.Promise;
-app.use(cors())
+app.use(cors({
+  origin: [
+    "http://localhost:3000",
+    "https://at-share-management-system.vercel.app"
+  ],
+  credentials: true
+}));
+
 app.use(bodyParser.json());
 app.use('/uploads',express.static('uploads'));
 app.use('/api/share',require('./routes/shareapi'));
@@ -26,6 +33,9 @@ app.all('*', (req,res,next) => {
 console.log("error");
 next();
 })
+
+
+
 mongoose.connect(process.env.MONGODB_URI).then(()=>{
 
     app.listen(port,()=>{
