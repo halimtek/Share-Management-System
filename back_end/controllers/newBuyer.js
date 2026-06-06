@@ -1,143 +1,3 @@
-// const asyncHandler = require('express-async-handler');
-// const bcrypt=require('bcryptjs');
-// const  mongoose = require('mongoose');
-// const request = require('request');
-// const buyers=require('../model/buyshare');
-// const Shareholders = require('../model/share');
-
-// const getNewBuyer=asyncHandler(async (req,res)=>{
-//     const user=await buyers.find();
-//     res.json(user);
-// })
-// const getBuyerById=asyncHandler(async (req,res)=>{
-//   const {id}=req.params;
-//   if(!mongoose.Types.ObjectId.isValid(id)){
-//     res.status(404).json({error: 'no new buyer found'})
-//       }
-//       const share=await buyers.findById({_id:id});
-//       if(share){
-//        res.json(share);
-//       }
-// })
-// const createNew=asyncHandler(async(req,res)=>{
-//     const {firstname,middlename,lastname,country,email,city,subcity,wereda,password,houseNo,phoneNo,shareamount}=req.body;
-//     if( !firstname || !middlename || !lastname  ||!email || !city || !subcity || !password || !wereda || !houseNo || !phoneNo || !shareamount){
-//       res.status(404);
-//       throw new Error("please fill all fileds");
-//     }
-//   const userExist=await buyers.findOne({email});
-//   if(userExist){
-//     res.status(404);
-//     throw new Error("user already exists change your email");
-//   }
-//   const shareExist=await Shareholders.findOne({email});
-//   if(shareExist){
-//     res.status(404);
-//     throw new Error("shareholder already exists change your email");
-//   }
-//   if(shareamount < 1000){
-//     res.status(404);
-//     throw new Error("minimum shareamount should be 1000 birr");
-//   }
-//   const salt=await bcrypt.genSalt(10);
-//   const hashedPassword=await bcrypt.hash(password,salt);
-//   let share=new buyers({
-//     firstname:req.body.firstname,
-//     middlename:req.body.middlename,
-//     lastname:req.body.lastname,
-//     email:req.body.email,
-//     password:hashedPassword,
-//     country:req.body.country,
-//     city:req.body.city,
-//     subcity:req.body.subcity,
-//     wereda:req.body.wereda,
-//     houseNo:req.body.houseNo,
-//     phoneNo:req.body.phoneNo,
-//     shareamount:req.body.shareamount,
-//   })
-//   if(req.file){
-//     share.image=req.file.path;
-//   }
-// let options = {
-//   'method': 'POST',
-//   'url': 'https://api.chapa.co/v1/transaction/initialize',
-//   'headers': {
-//     'Authorization': `Bearer ${process.env.CHAPA_SECRET_KEY}`,
-//     'Content-Type': 'application/json'
-//   },
-//   body: JSON.stringify({
-//     "amount": req.body.shareamount,
-//     "currency": "ETB",
-//     "email":req.body.email,
-//     "first_name": req.body.firstname,
-//     "last_name": req.body.lastname,
-//     "phone_number": req.body.phoneNo,
-//     "tx_ref": share._id,
-//     "callback_url": `${process.env.NEXT_PUBLIC_API_URL}/api/transaction`,
-//     "return_url": `${process.env.NEXT_PUBLIC_SITE_URL}/buyer_confirm`,
-//     "customization[title]": "Payment for buying a share",
-//     "customization[description]": "payments"
-//   })
-// };
-// try {
-//   request(options, async function (error, response) {
-//   if (error){
-//     return  res.json({
-//     error:"something were wrong please cheak ur internet connection"
-//   });}
-//    const result=await JSON.parse(response.body);
-//   // res.json({
-//   //   message:result.data.checkout_url
-//   // })
-
-//  if (!result || !result.data || !result.data.checkout_url) {
-//   console.log("CHAPA ERROR:", result);
-
-//   return res.status(500).json({
-//     message: "Failed to initialize payment",
-//     response: result
-//   });
-// }
-
-// res.json({
-//   message: result.data.checkout_url
-// });
-// // between
-//   share.save().then(async(response)=>{
-//     console.log("saved");
-//   })
-//     .catch(error=>{
-//     console.log(error)
-//     res.json({
-//       message:"error"
-//     })
-//   })
-//   });
-// } catch (error) {
-//   console.log(error)
-// }
-// })
-// const deleteNewBuyer=asyncHandler(async(req,res)=>{
-//   const {id}=req.params;
-//   if(!mongoose.Types.ObjectId.isValid(id)){
-//     res.status(404).json({error: 'no newbuyer found'})
-//   }
-//   const shareholder = await buyers.findById(id)
-//   if (!shareholder) {
-//     res.status(400)
-//     throw new Error('newbuyer not found');
-//   }
-//   await shareholder.deleteOne({_id:id})
-//   res.status(200).json({ id:id })
-// })
-  
-// module.exports={
-//  getNewBuyer,
-//  createNew,
-//  getBuyerById,   
-//  deleteNewBuyer,
-// }
-
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
@@ -155,23 +15,20 @@ const getBuyerById = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({
-      error: 'no new buyer found'
-    });
+    return res.status(404).json({ error: 'no new buyer found' });
   }
 
-  const share = await buyers.findById({ _id: id });
+  const share = await buyers.findById(id);
 
-  if (share) {
-    res.json(share);
-  } else {
-    res.status(404).json({
-      error: 'no new buyer found'
-    });
+  if (!share) {
+    return res.status(404).json({ error: 'no new buyer found' });
   }
+
+  res.json(share);
 });
 
 const createNew = asyncHandler(async (req, res) => {
+
   const {
     firstname,
     middlename,
@@ -187,66 +44,67 @@ const createNew = asyncHandler(async (req, res) => {
     shareamount
   } = req.body;
 
+  console.log("REQUEST BODY:", req.body);
+
+  // ✅ FIXED VALIDATION (trim safe)
   if (
-    !firstname ||
-    !middlename ||
-    !lastname ||
-    !country ||
-    !email ||
-    !city ||
-    !subcity ||
-    !password ||
-    !wereda ||
-    !houseNo ||
-    !phoneNo ||
+    !firstname?.trim() ||
+    !middlename?.trim() ||
+    !lastname?.trim() ||
+    !country?.trim() ||
+    !email?.trim() ||
+    !city?.trim() ||
+    !subcity?.trim() ||
+    !wereda?.trim() ||
+    !password?.trim() ||
+    !houseNo?.trim() ||
+    !phoneNo?.trim() ||
     !shareamount
   ) {
-    res.status(404);
-    throw new Error("please fill all fileds");
+    res.status(400);
+    throw new Error("please fill all fields");
   }
 
   const userExist = await buyers.findOne({ email });
-
   if (userExist) {
-    res.status(404);
+    res.status(400);
     throw new Error("user already exists change your email");
   }
 
   const shareExist = await Shareholders.findOne({ email });
-
   if (shareExist) {
-    res.status(404);
+    res.status(400);
     throw new Error("shareholder already exists change your email");
   }
 
   if (shareamount < 1000) {
-    res.status(404);
+    res.status(400);
     throw new Error("minimum shareamount should be 1000 birr");
   }
 
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
-  let share = new buyers({
-    firstname: req.body.firstname,
-    middlename: req.body.middlename,
-    lastname: req.body.lastname,
-    email: req.body.email,
+  const share = new buyers({
+    firstname,
+    middlename,
+    lastname,
+    email,
     password: hashedPassword,
-    country: req.body.country,
-    city: req.body.city,
-    subcity: req.body.subcity,
-    wereda: req.body.wereda,
-    houseNo: req.body.houseNo,
-    phoneNo: req.body.phoneNo,
-    shareamount: req.body.shareamount,
+    country,
+    city,
+    subcity,
+    wereda,
+    houseNo,
+    phoneNo,
+    shareamount
   });
 
   if (req.file) {
     share.image = req.file.path;
   }
 
-  let options = {
+  const options = {
     method: 'POST',
     url: 'https://api.chapa.co/v1/transaction/initialize',
     headers: {
@@ -254,97 +112,92 @@ const createNew = asyncHandler(async (req, res) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      amount: req.body.shareamount,
+      amount: shareamount,
       currency: "ETB",
-      email: req.body.email,
-      first_name: req.body.firstname,
-      last_name: req.body.lastname,
-      phone_number: req.body.phoneNo,
-      tx_ref: share._id,
+      email,
+      first_name: firstname,
+      last_name: lastname,
+      phone_number: phoneNo,
+      tx_ref: String(share._id),
+
+      // KEEP YOUR EXISTING URLs (NOT CHANGED)
       callback_url: `${process.env.NEXT_PUBLIC_API_URL}/api/transaction`,
       return_url: `${process.env.NEXT_PUBLIC_SITE_URL}/buyer_confirm`,
+
       "customization[title]": "Payment for buying a share",
       "customization[description]": "payments"
     })
   };
 
-  try {
+  request(options, (error, response) => {
 
-    request(options, async function (error, response) {
-  if (error) {
-    return res.status(500).json({
-      error: "network error, please check internet connection"
-    });
-  }
+    if (error) {
+      console.log("NETWORK ERROR:", error);
+      return res.status(500).json({
+        error: "network error"
+      });
+    }
 
-  let result;
-  try {
-    result = JSON.parse(response.body);
-  } catch (e) {
-    return res.status(500).json({
-      error: "invalid response from chapa",
-      raw: response.body
-    });
-  }
+    let result;
+    try {
+      result = JSON.parse(response.body);
+    } catch (e) {
+      console.log("PARSE ERROR:", response.body);
+      return res.status(500).json({
+        error: "invalid chapa response"
+      });
+    }
 
-  console.log("CHAPA RESPONSE:", result);
+    console.log("CHAPA RESPONSE:", result);
 
-  if (!result || result.status !== "success" || !result.data?.checkout_url) {
-    return res.status(500).json({
-      message: "Failed to initialize payment",
-      response: result
-    });
-  }
+    if (
+      !result ||
+      result.status !== "success" ||
+      !result.data ||
+      !result.data.checkout_url
+    ) {
+      return res.status(500).json({
+        message: "payment initialization failed",
+        response: result
+      });
+    }
 
-  try {
-    await share.save();
-    console.log("saved successfully");
+    // ✅ SAVE USER SAFE (NO await inside callback)
+    share.save()
+      .then(() => {
+        console.log("USER SAVED SUCCESSFULLY");
 
-    return res.json({
-      message: result.data.checkout_url
-    });
+        return res.json({
+          message: result.data.checkout_url
+        });
+      })
+      .catch((dbError) => {
+        console.log("DB ERROR:", dbError);
 
-  } catch (dbError) {
-    console.log("DB ERROR:", dbError);
-
-    return res.status(500).json({
-      message: "user saved failed",
-      error: dbError.message
-    });
-  }
-});
-
-  } catch (error) {
-
-    console.log("OUTER ERROR:", error);
-
-    return res.status(500).json({
-      message: "Server Error"
-    });
-  }
+        return res.status(500).json({
+          message: "user save failed",
+          error: dbError.message
+        });
+      });
+  });
 });
 
 const deleteNewBuyer = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({
-      error: 'no newbuyer found'
-    });
+    return res.status(404).json({ error: 'no newbuyer found' });
   }
 
   const shareholder = await buyers.findById(id);
 
   if (!shareholder) {
-    res.status(400);
-    throw new Error('newbuyer not found');
+    return res.status(404).json({ error: 'newbuyer not found' });
   }
 
-  await shareholder.deleteOne({ _id: id });
+  await buyers.deleteOne({ _id: id });
 
-  res.status(200).json({
-    id: id
-  });
+  res.json({ id });
 });
 
 module.exports = {
