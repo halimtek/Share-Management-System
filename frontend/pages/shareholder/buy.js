@@ -1,43 +1,29 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import Layout from "../shareholder";
+import {useRouter} from "next/router";
+import Layout from '../shareholder'
 
 const buy = () => {
-  const router = useRouter();
-
+  let user;
+  const router=useRouter();
   const [firstname, setFirstName] = useState("");
   const [middlename, setMiddleName] = useState("");
   const [lastname, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [phoneNo, setPhoneNo] = useState("");
+  const [phoneNo,setPhoneNo]=useState("");
   const [shareamount, setShareAmount] = useState("");
-
-  // ✅ NEW REQUIRED FIELDS (FROM BACKEND)
-  const [country, setCountry] = useState("Ethiopia");
-  const [city, setCity] = useState("Addis Ababa");
-  const [subcity, setSubcity] = useState("");
-  const [wereda, setWereda] = useState("");
-  const [houseNo, setHouseNo] = useState("");
-  const [password, setPassword] = useState("");
-
   const [error, setError] = useState("");
-
   useEffect(() => {
-    const user = JSON.parse(sessionStorage.getItem("user"));
-
-    if (user) {
-      setEmail(user.email || "");
-      setFirstName(user.firstname || "");
-      setLastName(user.lastname || "");
-      setMiddleName(user.middlename || "");
-      setPhoneNo(user.phoneNo || "");
-    }
-  }, []);
-
+     user= JSON.parse(sessionStorage.getItem("user"));
+    console.log(user)
+    setEmail(user.email);
+    setFirstName(user.firstname);
+    setLastName(user.lastname);
+    setMiddleName(user.middlename);
+    setPhoneNo(user.phoneNo);
+  },[])
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     const addshareamount = {
       firstname,
       middlename,
@@ -45,85 +31,162 @@ const buy = () => {
       email,
       phoneNo,
       shareamount,
-
-      // ✅ REQUIRED 12 FIELDS
-      country,
-      city,
-      subcity,
-      wereda,
-      houseNo,
-      password,
     };
-
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/addshareamount`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(addshareamount),
-        }
-      );
-
-      const data = await response.json();
-
-      if (response.ok && !data.error) {
-        setError("");
-        router.push(data.message);
-      } else {
-        setError(data.error || data.message);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/addshareamount`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(addshareamount),
+    });
+    console.log(response)
+    const data = await response.json();
+    if (response.ok) {
+      if(!data.error){
+      setFirstName("");
+      setMiddleName("");
+      setLastName("");
+      setEmail("");
+      setPhoneNo("");
+      setShareAmount("");
+      setError("");
+      console.log(data);
+      router.push(data.message)}
+      else{
+        setError(data.error);
       }
-    } catch (err) {
-      setError("Network error");
+     
+    } else {
+      setError(data.message);
     }
   };
 
   return (
     <Layout>
-      <div className="max-w-lg mx-auto mt-10 pt-10 rounded-lg bg-gray-400">
-        <Head>
-          <title>Buy a Share</title>
-        </Head>
-
+    <div className="max-w-lg mx-auto mt-10 pt-10 rounded-lg bg-gray-400">
+      <Head>
+        <title className="">Buy a share</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <div>
         <h1 className="font-bold text-gray-700 text-center mb-8 text-2xl">
           Buy And Increase Your Profit
         </h1>
+      </div>
 
-        <form onSubmit={handleSubmit} className="max-w-md mx-auto">
+      <form onSubmit={handleSubmit} className="max-w-md mx-auto">
+        <div className="grid grid-cols-3 gap-x-4 ">
+          <div className="mb-4">
+            <label
+              htmlFor="firstName"
+              className="block mb-2 font-bold text-gray-700"
+            >
+              First Name
+            </label>
+            <input
+              type="text"
+              id="firstName"
+              required
+              className="w-full px-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+              onChange={(event) => setFirstName(event.target.value)}
+              value={firstname}
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="middleName"
+              className="block mb-2 font-bold text-gray-700"
+            >
+              Middle Name
+            </label>
+            <input
+              type="text"
+              id="middleName"
+              required
+              className="w-full px-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+              onChange={(event) => setMiddleName(event.target.value)}
+              value={middlename}
+            />
+          </div>
 
-          {/* NAME FIELDS */}
-          <input value={firstname} onChange={(e) => setFirstName(e.target.value)} placeholder="First Name" className="input" />
-          <input value={middlename} onChange={(e) => setMiddleName(e.target.value)} placeholder="Middle Name" className="input" />
-          <input value={lastname} onChange={(e) => setLastName(e.target.value)} placeholder="Last Name" className="input" />
+          <div className="mb-4">
+            <label
+              htmlFor="lastName"
+              className="block mb-2 font-bold text-gray-700"
+            >
+              Last Name
+            </label>
+            <input
+              type="text"
+              id="lastName"
+              required
+              className="w-full px-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+              onChange={(event) => setLastName(event.target.value)}
+              value={lastname}
+            />
+          </div>
+        </div>
 
-          {/* EMAIL (readonly) */}
-          <input value={email} readOnly className="input bg-gray-200" />
-
-          {/* PHONE */}
-          <input value={phoneNo} onChange={(e) => setPhoneNo(e.target.value)} placeholder="Phone No" className="input" />
-
-          {/* SHARE */}
-          <input value={shareamount} onChange={(e) => setShareAmount(e.target.value)} placeholder="Share Amount" type="number" className="input" />
-
-          {/* NEW FIELDS */}
-          <input value={country} onChange={(e) => setCountry(e.target.value)} placeholder="Country" className="input" />
-          <input value={city} onChange={(e) => setCity(e.target.value)} placeholder="City" className="input" />
-          <input value={subcity} onChange={(e) => setSubcity(e.target.value)} placeholder="Subcity" className="input" />
-          <input value={wereda} onChange={(e) => setWereda(e.target.value)} placeholder="Wereda" className="input" />
-          <input value={houseNo} onChange={(e) => setHouseNo(e.target.value)} placeholder="House No" className="input" />
-          <input value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" type="password" className="input" />
-
-          <button type="submit" className="w-full bg-blue-500 text-white p-2 mt-4">
+        <div className="mb-4">
+          <label htmlFor="email" className="block mb-2 font-bold text-gray-700">
+            Email
+          </label>
+          <input
+            type="email"
+            id="email"
+            autoComplete="email"
+            required
+            className="w-full px-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+            // onChange={(event) => setEmail(event.target.value)}
+            value={email}
+          />
+        </div>
+        <div className="mb-4">
+          <label
+            htmlFor="phoneNo"
+            className="block mb-2 font-bold text-gray-700"
+          >
+            Phone No
+          </label>
+          <input
+            type="tel"
+            id="phoneNo"
+            required
+            autoComplete="tel"
+            className="w-full px-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+            onChange={(event) => setPhoneNo(event.target.value)}
+            value={phoneNo}
+          />
+        </div>
+        <div className="mb-4">
+          <label
+            htmlFor="shareAmount"
+            className="block mb-2 font-bold text-gray-700"
+          >
+            Share Amount
+          </label>
+          <input
+            type="number"
+            id="shareAmount"
+            required
+            className="w-full px-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+            onChange={(event) => setShareAmount(event.target.value)}
+            value={shareamount}
+          />
+        </div>
+        <div className="mb-8">
+          <button
+            type="submit"
+            className="w-full py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300 mb-16"
+          >
             BUY
           </button>
-
-          {error && <p className="text-red-500 mt-2">{error}</p>}
-        </form>
-      </div>
+          {error && <p className="text-red-500 mb-7">{error}</p>}
+        </div>
+      </form>
+    </div>
     </Layout>
-  );
-};
+  )
+}
 
-export default buy;
+export default buy
