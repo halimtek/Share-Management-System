@@ -62,7 +62,7 @@ let options = {
   'method': 'POST',
   'url': 'https://api.chapa.co/v1/transaction/initialize',
   'headers': {
-    'Authorization': `Bearer ${process.env.Secret_key}`,
+    'Authorization': `Bearer ${process.env.CHAPA_SECRET_KEY}`,
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({
@@ -86,9 +86,23 @@ try {
     error:"something were wrong please cheak ur internet connection"
   });}
    const result=await JSON.parse(response.body);
-  res.json({
-    message:result.data.checkout_url
-  })
+  // res.json({
+  //   message:result.data.checkout_url
+  // })
+
+ if (!result || !result.data || !result.data.checkout_url) {
+  console.log("CHAPA ERROR:", result);
+
+  return res.status(500).json({
+    message: "Failed to initialize payment",
+    response: result
+  });
+}
+
+res.json({
+  message: result.data.checkout_url
+});
+// between
   share.save().then(async(response)=>{
     console.log("saved");
   })
