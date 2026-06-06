@@ -73,8 +73,8 @@ let options = {
     "last_name": req.body.lastname,
     "phone_number": req.body.phoneNo,
     "tx_ref": share._id,
-    "callback_url": "http://localhost:8000/api/transaction",
-    "return_url": "http://localhost:3000/buyer_confirm",
+    "callback_url": `${process.env.NEXT_PUBLIC_API_URL}/api/transaction`,
+    "return_url": `${process.env.NEXT_PUBLIC_SITE_URL}/buyer_confirm`,
     "customization[title]": "Payment for buying a share",
     "customization[description]": "payments"
   })

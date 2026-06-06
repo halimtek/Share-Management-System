@@ -25,7 +25,7 @@ export default function TransactionHistory() {
           },
         }
       // if(user && user.roll===0){
-        const response = await fetch(`http://localhost:8000/api/transaction/${email}`,config)
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/transaction/${email}`,config)
         data = await response.json()
         if(response.ok){
           setUser(data)

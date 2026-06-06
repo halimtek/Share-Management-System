@@ -38,7 +38,7 @@ const buy = () => {
     if (image) {
       formData.append('image', image, image.name);
     }
-  const response = await fetch("http://localhost:8000/api/buyer", {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/buyer`, {
     method: "POST",
     // headers: {
     //   "Content-Type": "application/json",

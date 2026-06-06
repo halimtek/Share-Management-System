@@ -14,7 +14,7 @@ const ContactPage = () => {
       email,
       message,
     };
-    const response = await fetch("http://localhost:8000/api/contactus", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/contactus`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

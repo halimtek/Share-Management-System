@@ -31,7 +31,7 @@ useEffect(()=>{
           Authorization: `Bearer ${user.token}`,
         },
       }
-    const response=await fetch(`http://localhost:8000/api/buyer/shareholder_registration/${id}`,config)
+    const response=await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/buyer/shareholder_registration/${id}`,config)
     const data=await response.json()
     if(response.ok){
       setPerson(data)
@@ -81,7 +81,7 @@ useEffect(()=>{
       shareamount,
       image,
     };  
-    const response = await fetch("http://localhost:8000/api/share", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/share`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -109,7 +109,7 @@ useEffect(()=>{
     } else {
       setError(data.message);
     }
-      const deleteresponse = await fetch(`http://localhost:8000/api/buyer/${id}`, {
+      const deleteresponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/buyer/${id}`, {
         method: "DELETE",
       });
       const deleteddata = await deleteresponse.json();

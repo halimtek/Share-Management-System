@@ -22,7 +22,7 @@ const ShareholderTable = ({ shareholders }) => {
           Authorization: `Bearer ${user.token}`,
         },
       }
-    const response = await fetch(`http://localhost:8000/api/share/${id}`,config)
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/share/${id}`,config)
     console.log(response.ok)
     const data = await response.json();
     if (response.ok) {

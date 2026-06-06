@@ -80,7 +80,7 @@ function dashboared() {
               </div>
             </div> */}
                  <div className="flex items-center p-4 rounded-lg hover:bg-gray-50 transition-colors duration-300 ease-in-out">
-            <Link href="http://localhost:3000/shareholder/myshare">
+            <Link href={`${process.env.NEXT_PUBLIC_SITE_URL}/shareholder/myshare`}>
               <div className="rounded-full bg-teal-500 text-white p-2 mr-4 hover:scale-105 ease-in duration-300">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

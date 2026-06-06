@@ -41,8 +41,8 @@ body: JSON.stringify({
   "last_name": req.body.lastname,
   "phone_number": req.body.phoneNo,
   "tx_ref": share._id,
-  "callback_url": "http://localhost:8000/api/selltransaction",
-  "return_url": "http://localhost:3000/shareholder/confirm",
+  "callback_url": `${process.env.NEXT_PUBLIC_API_URL}/api/selltransaction`,
+  "return_url": `${process.env.NEXT_PUBLIC_API_URL}/shareholder/confirm`,
   "customization[title]": "Payment for a share ",
   "customization[description]": "payments"
 })

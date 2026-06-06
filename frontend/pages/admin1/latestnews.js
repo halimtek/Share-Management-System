@@ -18,7 +18,7 @@ export default function LatestNews({ news }) {
 
   export async function getStaticProps() {
     // const response = await fetch('https://api.example.com/latest-news');
-    const response = await fetch('http://localhost:5000/api/adminnews');
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/latest-news`);
     const news = await response.json();
     return {
       props: {

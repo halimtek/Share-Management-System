@@ -23,7 +23,7 @@ const AddNews = () => {
       formData.append('image', image, image.name);
     }
 
-    const res = await fetch('http://localhost:8000/api/adminnews', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/adminnews`, {
       method: 'POST',
       body: formData,
     });

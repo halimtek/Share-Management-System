@@ -14,7 +14,7 @@ const newBuyersList = () => {
           Authorization: `Bearer ${user.token}`,
         },
       }
-      const response=await fetch('http://localhost:8000/api/buyer',config)
+      const response=await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/buyer`,config)
       const data=await response.json()
       if(response.ok){
         setshare(data)

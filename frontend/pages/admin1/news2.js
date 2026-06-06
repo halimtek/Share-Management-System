@@ -69,7 +69,7 @@ const AdminNewsCard = ({adminnews}) => {
   // console.log(adminnews.reverse())
   // console.log(adminnews)
   const handleDelete = async (id) => {
-    const response = await fetch(`http://localhost:8000/api/adminnews/${id}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/adminnews/${id}`, {
       method: "DELETE",
     });
     const data = await response.json();
@@ -87,7 +87,7 @@ const AdminNewsCard = ({adminnews}) => {
       {/* <div className="font-semibold text-purple-700">{item.author}</div> */}
       <div >{item.description}</div>  
       <div>{item.content}</div> 
-       <img src={`http://localhost:8000/${item.image}`} className='w-70 h-60'/>
+       <img src={`${process.env.NEXT_PUBLIC_API_URL}/${item.image}`} className='w-70 h-60'/>
        <p className='italic text-normal text-right text-blue-950 pb-0 '>{formatDistanceToNow(new Date(item.createdAt),{addSuffix:true})}</p>
        <form action="" method="post">
                     <div>

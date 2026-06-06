@@ -17,7 +17,7 @@ export default function shareholder_details() {
             Authorization: `Bearer ${users.token}`,
           },
         }
-        const response = await fetch(`http://localhost:8000/api/share/edit_shareholder/${id}`,config)
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/share/edit_shareholder/${id}`,config)
         const data = await response.json()
         if(response.ok){
           setUser(data)

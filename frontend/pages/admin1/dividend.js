@@ -15,7 +15,7 @@ const totalshare=rou.query.shareamount
      totalProfit,
      totalShareAmount
     };
-    const response = await fetch("http://localhost:8000/api/calculate-dividend", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/calculate-dividend`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

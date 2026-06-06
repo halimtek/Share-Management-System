@@ -14,7 +14,7 @@ const id=rou.query.id
 const handleUpdate = async (Email) => {
     const update={shareamount}
     const user= JSON.parse(sessionStorage.getItem("user"));
-        const response=await fetch(`http://localhost:8000/api/share/${Email}`,{
+        const response=await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/share/${Email}`,{
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ useEffect(()=>{
             Authorization: `Bearer ${user.token}`,
           },
         }
-      const response=await fetch(`http://localhost:8000/api/addshareamount/edit_shareholder/${id}`,config)
+      const response=await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/addshareamount/edit_shareholder/${id}`,config)
       const data=await response.json()
       if(response.ok){
         setPerson(data)

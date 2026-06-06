@@ -16,7 +16,7 @@ const ReportTable = ({ shareholderActivities }) => {
           Authorization: `Bearer ${user.token}`,
         },
       }
-      const response=await fetch('http://localhost:8000/api/addshareamount',config)
+      const response=await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/addshareamount`,config)
       const data=await response.json()
       if(response.ok){
         setaddshare(data)

@@ -20,7 +20,7 @@ export const AuthContextProvider = ({ children }) => {
   const Userlogin = async (email, password) => {
     try {
       await axios
-        .post("http://localhost:8000/api/login", { email, password })
+        .post(`${process.env.NEXT_PUBLIC_API_URL}/api/login`, { email, password })
         .then((user) => {
 
           sessionStorage.setItem("user", JSON.stringify(user.data));

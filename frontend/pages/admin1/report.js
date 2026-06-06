@@ -22,7 +22,7 @@ const Report = () => {
           Authorization: `Bearer ${user.token}`,
         },
       }
-      const response=await fetch('http://localhost:8000/api/share',config)
+      const response=await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/share`,config)
       const data=await response.json()
       if(response.ok){
         setshare(data)

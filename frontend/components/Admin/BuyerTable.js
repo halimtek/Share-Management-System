@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 const BuyerTable = ({ shareholders }) => {
   const handleDelete = async (id) => {
     console.log(id);
-    const response = await fetch(`http://localhost:8000/api/addshareamount/${id}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/addshareamount/${id}`, {
       method: "DELETE",
     });
     const data = await response.json();
