@@ -6,4 +6,4 @@ USER='email'
 PASS='password'
 HOST=smtp.gmail.com
 SERVICE=gmail
-Secret_key=yours
+Secret_key=CHASECK_TEST-PZ35czL9Mc0G6HP8pkl1ZYni9NWO6gAq
