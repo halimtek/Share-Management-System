@@ -191,6 +191,7 @@ const createNew = asyncHandler(async (req, res) => {
     !firstname ||
     !middlename ||
     !lastname ||
+    !country ||
     !email ||
     !city ||
     !subcity ||
