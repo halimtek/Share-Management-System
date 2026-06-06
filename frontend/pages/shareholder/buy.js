@@ -32,7 +32,7 @@ const buy = () => {
       phoneNo,
       shareamount,
     };
-    const response = await fetch("http://localhost:8000/api/addshareamount", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/addshareamount`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -76,7 +76,7 @@ const NewsCard = ({adminnews}) => {
       
       <div className='my-2'>{item.description}</div>  
       <div className='my-4'>{item.content}</div>
-      <img src={`http://localhost:8000/${item.image}`} className='w-70 h-60'/>
+      <img src={`${process.env.NEXT_PUBLIC_API_URL}/${item.image}`} className='w-70 h-60'/>
         
        <p className='italic text-normal text-right text-blue-950 pb-0 '>{formatDistanceToNow(new Date(item.createdAt),{addSuffix:true})}</p>
        

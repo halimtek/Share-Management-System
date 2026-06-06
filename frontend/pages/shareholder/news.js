@@ -16,7 +16,8 @@ const news = () => {
             Authorization: `Bearer ${user.token}`,
           },
         }
-        const response = await fetch('http://localhost:8000/api/adminnews',config)
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/adminnews`,config)
         const data = await response.json()
         if(response.ok){
           setNews(data)

@@ -127,7 +127,7 @@ export default function UserProfile() {
           },
         }
       // if(user && user.roll===0){
-        const response = await fetch('http://localhost:8000/api/user/info',config)
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/info`,config)
         const data = await response.json()
         if(response.ok){
           setUser(data)
@@ -164,7 +164,7 @@ export default function UserProfile() {
         <picture>
           <img
             className="w-28 h-auto rounded-3xl"
-            src={`http://localhost:8000/${user.image}`}
+            src={`${process.env.NEXT_PUBLIC_API_URL}/${user.image}`}
             alt="user image"
           />
         </picture>

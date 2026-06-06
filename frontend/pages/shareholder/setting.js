@@ -42,7 +42,7 @@ export default function Settings() {
       //     Authorization: `Bearer ${user.token}`,
       //   },
       // }
-    const response=await fetch(`http://localhost:8000/api/user/`,{
+    const response=await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/${user._id}`,{
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
