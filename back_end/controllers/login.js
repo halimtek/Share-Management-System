@@ -2,6 +2,19 @@ const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Shareholders = require('../model/share');
+
+
+
+// const Shareholders = require('../model/share');
+const Buyers = require('../model/buyshare');
+
+// let userExist = await Shareholders.findOne({ email });
+
+// if (!userExist) {
+//     userExist = await Buyers.findOne({ email });
+// }
+
+
 const LoginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -9,6 +22,10 @@ const LoginUser = asyncHandler(async (req, res) => {
     throw new Error('can not create');
   }
   const userExist = await Shareholders.findOne({ email });
+  if (!userExist) {
+    userExist = await Buyers.findOne({ email });
+}
+
   if (userExist && (await bcrypt.compare(password, userExist.password))) {
     res.status(201).json({
       _id: userExist.id,

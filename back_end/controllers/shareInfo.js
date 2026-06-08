@@ -31,14 +31,14 @@ const createShare=asyncHandler(async(req,res)=>{
     res.status(404);
     throw new Error("'shareholder already exists'");
   }
-  // const salt=await bcrypt.genSalt(10);
-  // const hashedPassword=await bcrypt.hash(password,salt);
+  const salt=await bcrypt.genSalt(10);
+  const hashedPassword=await bcrypt.hash(password,salt);
   let share=new Shareholders({
     firstname:req.body.firstname,
     middlename:req.body.middlename,
     lastname:req.body.lastname,
     email:req.body.email,
-    password:req.body.password,
+    password:hashedPassword,
     country:req.body.country,
     city:req.body.city,
     subcity:req.body.subcity,
