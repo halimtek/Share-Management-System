@@ -1,58 +1,65 @@
-const asyncHandler = require('express-async-handler');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const Shareholders = require('../model/share');
+const asyncHandler = require("express-async-handler");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
+const Shareholders = require("../model/share");
+const Buyers = require("../model/buyshare");
 
-
-// const Shareholders = require('../model/share');
-const Buyers = require('../model/buyshare');
-
-// let userExist = await Shareholders.findOne({ email });
-
-// if (!userExist) {
-//     userExist = await Buyers.findOne({ email });
-// }
-
+const generateToken = (id) => {
+  return jwt.sign(
+    { id },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "2d",
+    }
+  );
+};
 
 const LoginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
+
   if (!email || !password) {
-    res.status(404);
-    throw new Error('can not create');
+    return res.status(400).json({
+      error: "Email and Password are required",
+    });
   }
-  const userExist = await Shareholders.findOne({ email });
+
+  let userExist = await Shareholders.findOne({ email });
+
   if (!userExist) {
     userExist = await Buyers.findOne({ email });
-}
- console.log("email:", email);
- console.log("password:", password);
-  console.log("userExist:", userExist);
+  }
 
-  if (userExist && (await bcrypt.compare(password, userExist.password))) {
-    res.status(201).json({
-      _id: userExist.id,
-      email: userExist.email,
-      firstname: userExist.firstname,
-      lastname: userExist.lastname,
-      middlename: userExist.middlename,
-      phoneNo: userExist.phoneNo,
-      roll: userExist.roll,
-      token: generateToken(userExist._id),
-      // ok:"userloged"
-    })
+  if (!userExist) {
+    return res.status(404).json({
+      error: "User Not Found",
+    });
   }
-  else {
-    res.status(400).json({ error: 'Invalid Credentials' })
+
+  const passwordMatch = await bcrypt.compare(
+    password,
+    userExist.password
+  );
+
+  if (!passwordMatch) {
+    return res.status(400).json({
+      error: "Invalid Credentials",
+    });
   }
-}
-)
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: '2d',
-  })
-}
+
+  return res.status(200).json({
+    _id: userExist._id,
+    email: userExist.email,
+    firstname: userExist.firstname,
+    lastname: userExist.lastname,
+    middlename: userExist.middlename,
+    phoneNo: userExist.phoneNo,
+    roll: userExist.roll || 0,
+    token: generateToken(userExist._id),
+  });
+});
+
 module.exports = {
   LoginUser,
-  generateToken
-}
+  generateToken,
+};
