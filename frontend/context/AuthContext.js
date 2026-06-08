@@ -4,7 +4,7 @@ const UserContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   
- /*const createUser = async (email, password) => {
+ const createUser = async (email, password) => {
     try {
       await axios
         .post("http://localhost:5000/api/login", { email, password })
@@ -16,7 +16,7 @@ export const AuthContextProvider = ({ children }) => {
     } catch (e) {
       console.log(e);
     }
-  };*/
+  };
   const Userlogin = async (email, password) => {
     try {
       await axios
@@ -28,7 +28,11 @@ export const AuthContextProvider = ({ children }) => {
           // setUserData(user.data)
         });
     } catch (e) {
-      throw new Error("User Not Found")
+      console.log(e.response?.data);
+      throw new Error(
+        e.response?.data?.error || "Login failed"
+      );
+    }
     }
   };
 
