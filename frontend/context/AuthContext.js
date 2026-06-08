@@ -28,12 +28,11 @@ export const AuthContextProvider = ({ children }) => {
           // setUserData(user.data)
         });
     } catch (e) {
-      console.log(e.response?.data);
-      throw new Error(
-        e.response?.data?.error || "Login failed"
-      );
-    }
-    }
+  console.log(e.response?.data);
+  throw new Error(
+    e.response?.data?.error || "Login failed"
+  );
+}
   };
 
   // const signIn = (email, password) => {
