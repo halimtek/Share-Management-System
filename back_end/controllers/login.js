@@ -25,6 +25,9 @@ const LoginUser = asyncHandler(async (req, res) => {
   if (!userExist) {
     userExist = await Buyers.findOne({ email });
 }
+ console.log("email:", email);
+ console.log("password:", password);
+  console.log("userExist:", userExist);
 
   if (userExist && (await bcrypt.compare(password, userExist.password))) {
     res.status(201).json({
