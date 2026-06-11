@@ -86,219 +86,299 @@ const buy = () => {
   };
 
   return (
-    <Heator>
-      <div id="buy" className="max-w-lg mx-auto rounded-lg bg-gray-400 pt-10 mt-10">
-        <Head>
-          <title>register</title>
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
+  <Heator>
+    <>
+      <Head>
+        <title>Become a Shareholder</title>
+      </Head>
 
-        <div>
-          <h1 className="font-bold text-gray-700 text-center mb-8 text-2xl">
-            Buy And Be a Shareholder
-          </h1>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-teal-50 py-10 px-4">
+
+        {/* Hero */}
+        <div className="max-w-7xl mx-auto mb-10 py-4">
+          <div className="bg-gradient-to-r from-[#134e4a] to-[#0f766e] rounded-3xl overflow-hidden shadow-xl">
+
+            <div className="grid md:grid-cols-2 items-center">
+
+              <div className="p-10 md:p-16 text-white">
+                {/* <span className="bg-white/20 px-4 py-2 rounded-full text-sm font-semibold">
+                  Shareholder Registration
+                </span> */}
+
+                <h1 className="text-5xl font-bold mt-6">
+                  Become a Shareholder
+                </h1>
+
+                <p className="mt-4 text-slate-200 text-lg">
+                  Invest securely and become part of our growing company.
+                </p>
+              </div>
+
+              <div className="hidden md:flex justify-center p-10">
+                <img
+                  src="/assets/logo/manage.jpg"
+                  alt="shareholder"
+                  className="rounded-3xl w-full max-w-md shadow-2xl"
+                />
+              </div>
+
+            </div>
+          </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="max-w-md mx-auto">
+        {/* Form Container */}
+        <div className="max-w-7xl mx-auto">
+          <form onSubmit={handleSubmit}>
+            <div className="grid lg:grid-cols-3 gap-8">
 
-          {/* UI untouched exactly as yours */}
-          <div className="grid grid-cols-3 gap-x-4 ">
+              {/* LEFT */}
+              <div className="lg:col-span-2 space-y-8">
 
-            <div className="mb-4">
-              <label className="block mb-2 font-bold text-gray-700">
-                First Name
-              </label>
-              <input
-                type="text"
-                required
-                className="w-full px-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-                onChange={(e) => setFirstName(e.target.value)}
-                value={firstname}
-              />
+                {/* Personal Information */}
+                <div className="bg-white rounded-3xl shadow-lg p-8">
+
+                  <h2 className="text-2xl font-bold mb-6 text-slate-800">
+                    Personal Information
+                  </h2>
+
+                  <div className="grid md:grid-cols-3 gap-4">
+
+                    <input
+                      type="text"
+                      placeholder="First Name"
+                      value={firstname}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      required
+                      className="input-modern"
+                    />
+
+                    <input
+                      type="text"
+                      placeholder="Middle Name"
+                      value={middlename}
+                      onChange={(e) => setMiddleName(e.target.value)}
+                      required
+                      className="input-modern"
+                    />
+
+                    <input
+                      type="text"
+                      placeholder="Last Name"
+                      value={lastname}
+                      onChange={(e) => setLastName(e.target.value)}
+                      required
+                      className="input-modern"
+                    />
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-4 mt-4">
+
+                    <input
+                      type="email"
+                      placeholder="Email Address"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                      className="input-modern"
+                    />
+
+                    <input
+                      type="password"
+                      placeholder="Password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                      minLength={6}
+                      className="input-modern"
+                    />
+                  </div>
+
+                  <div className="mt-4">
+                    <input
+                      type="tel"
+                      placeholder="Phone Number"
+                      value={phoneNo}
+                      onChange={(e) => setPhoneNo(e.target.value)}
+                      required
+                      className="input-modern"
+                    />
+                  </div>
+                </div>
+
+                {/* Address */}
+                <div className="bg-white rounded-3xl shadow-lg p-8">
+
+                  <h2 className="text-2xl font-bold mb-6 text-slate-800">
+                    Address Information
+                  </h2>
+
+                  <div className="grid md:grid-cols-2 gap-4">
+
+                    <input
+                      type="text"
+                      placeholder="City"
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
+                      required
+                      className="input-modern"
+                    />
+
+                    <input
+                      type="text"
+                      placeholder="Subcity"
+                      value={subcity}
+                      onChange={(e) => setSubcity(e.target.value)}
+                      required
+                      className="input-modern"
+                    />
+
+                    <input
+                      type="text"
+                      placeholder="Wereda"
+                      value={wereda}
+                      onChange={(e) => setWereda(e.target.value)}
+                      required
+                      className="input-modern"
+                    />
+
+                    <input
+                      type="text"
+                      placeholder="House Number"
+                      value={houseNo}
+                      onChange={(e) => setHouseNo(e.target.value)}
+                      required
+                      className="input-modern"
+                    />
+
+                    <input
+                      type="text"
+                      placeholder="Country"
+                      value={country}
+                      onChange={(e) => setCountry(e.target.value)}
+                      required
+                      className="input-modern md:col-span-2"
+                    />
+                  </div>
+                </div>
+
+                {/* Investment */}
+                <div className="bg-white rounded-3xl shadow-lg p-8">
+
+                  <h2 className="text-2xl font-bold mb-6 text-slate-800">
+                    Investment Details
+                  </h2>
+
+                  <input
+                    type="number"
+                    placeholder="Share Amount"
+                    value={shareamount}
+                    onChange={(e) => setShareAmount(e.target.value)}
+                    required
+                    className="input-modern"
+                  />
+                </div>
+
+                {/* Upload */}
+                <div className="bg-white rounded-3xl shadow-lg p-8">
+
+                  <h2 className="text-2xl font-bold mb-6 text-slate-800">
+                    Verification Document
+                  </h2>
+
+                  <label className="block border-2 border-dashed border-slate-300 rounded-2xl p-8 text-center cursor-pointer hover:border-teal-600 transition">
+
+                    <p className="font-semibold">
+                      Upload Profile Image
+                    </p>
+
+                    <p className="text-gray-500 text-sm mt-2">
+                      JPG, PNG supported
+                    </p>
+
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      className="hidden"
+                    />
+                  </label>
+
+                  {image && (
+                    <div className="mt-6">
+                      <img
+                        src={URL.createObjectURL(image)}
+                        alt="preview"
+                        className="w-40 h-40 object-cover rounded-2xl border"
+                      />
+                    </div>
+                  )}
+                </div>
+
+              </div>
+
+              {/* RIGHT */}
+              <div>
+
+                <div className="sticky top-28 bg-[#134e4a] text-white rounded-3xl shadow-xl p-8">
+
+                  <h2 className="text-2xl font-bold mb-8">
+                    Registration Summary
+                  </h2>
+
+                  <div className="space-y-4">
+
+                    <div className="flex justify-between">
+                      <span>Name</span>
+                      <span>{firstname || "-"}</span>
+                    </div>
+
+                    <div className="flex justify-between">
+                      <span>Email</span>
+                      <span>{email || "-"}</span>
+                    </div>
+
+                    <div className="flex justify-between">
+                      <span>Country</span>
+                      <span>{country || "-"}</span>
+                    </div>
+
+                    <div className="border-t border-white/20 pt-4">
+
+                      <div className="text-sm opacity-80">
+                        Share Amount
+                      </div>
+
+                      <div className="text-4xl font-bold mt-2">
+                        {shareamount || 0}
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full mt-8 bg-white text-[#134e4a] py-4 rounded-2xl font-bold text-lg hover:scale-105 transition"
+                  >
+                    Continue To Payment
+                  </button>
+
+                  {error && (
+                    <p className="mt-4 text-red-200 text-center">
+                      {error}
+                    </p>
+                  )}
+
+                </div>
+
+              </div>
+
             </div>
-
-            <div className="mb-4">
-              <label className="block mb-2 font-bold text-gray-700">
-                Middle Name
-              </label>
-              <input
-                type="text"
-                required
-                className="w-full px-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-                onChange={(e) => setMiddleName(e.target.value)}
-                value={middlename}
-              />
-            </div>
-
-            <div className="mb-4">
-              <label className="block mb-2 font-bold text-gray-700">
-                Last Name
-              </label>
-              <input
-                type="text"
-                required
-                className="w-full px-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-                onChange={(e) => setLastName(e.target.value)}
-                value={lastname}
-              />
-            </div>
-          </div>
-
-          <div className="mb-4">
-            <label className="block mb-2 font-bold text-gray-700">
-              Email
-            </label>
-            <input
-              type="email"
-              required
-              className="w-full px-3 py-2 text-gray-700 border rounded-md"
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-            />
-          </div>
-
-          <div className="mb-4">
-            <label className="block mb-2 font-bold text-gray-700">
-              Password
-            </label>
-            <input
-              type="password"
-              required
-              minLength={6}
-              className="w-full px-3 py-2 text-gray-700 border rounded-md"
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
-            />
-          </div>
-
-          <div className="mb-4">
-            <label className="block mb-2 font-bold text-gray-700">
-              Phone No
-            </label>
-            <input
-              type="tel"
-              required
-              minLength={10}
-              maxLength={10}
-              className="w-full px-3 py-2 text-gray-700 border rounded-md"
-              onChange={(e) => setPhoneNo(e.target.value)}
-              value={phoneNo}
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-x-4 mb-4">
-
-            <div>
-              <label className="block mb-2 font-bold text-gray-700">
-                City
-              </label>
-              <input
-                type="text"
-                required
-                className="w-full px-3 py-2 text-gray-700 border rounded-md"
-                onChange={(e) => setCity(e.target.value)}
-                value={city}
-              />
-            </div>
-
-            <div>
-              <label className="block mb-2 font-bold text-gray-700">
-                Subcity
-              </label>
-              <input
-                type="text"
-                required
-                className="w-full px-3 py-2 text-gray-700 border rounded-md"
-                onChange={(e) => setSubcity(e.target.value)}
-                value={subcity}
-              />
-            </div>
-
-            <div className="mt-4">
-              <label className="block mb-2 font-bold text-gray-700">
-                Wereda
-              </label>
-              <input
-                type="text"
-                required
-                className="w-full px-3 py-2 text-gray-700 border rounded-md"
-                onChange={(e) => setWereda(e.target.value)}
-                value={wereda}
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-x-4 mt-4">
-
-            <div>
-              <label className="block mb-2 font-bold text-gray-700">
-                House No
-              </label>
-              <input
-                type="text"
-                required
-                className="w-full px-3 py-2 text-gray-700 border rounded-md"
-                onChange={(e) => setHouseNo(e.target.value)}
-                value={houseNo}
-              />
-            </div>
-
-            <div>
-              <label className="block mb-2 font-bold text-gray-700">
-                Country
-              </label>
-              <input
-                type="text"
-                required
-                className="w-full px-3 py-2 text-gray-700 border rounded-md"
-                onChange={(e) => setCountry(e.target.value)}
-                value={country}
-              />
-            </div>
-          </div>
-
-          <div className="mb-4">
-            <label className="block mb-2 font-bold text-gray-700">
-              Share Amount
-            </label>
-            <input
-              type="number"
-              required
-              className="w-full px-3 py-2 text-gray-700 border rounded-md"
-              onChange={(e) => setShareAmount(e.target.value)}
-              value={shareamount}
-            />
-          </div>
-
-          <div className="mb-4">
-            <label className="block font-medium mb-2">Image</label>
-            <input type="file" accept="image/*" onChange={handleImageChange} />
-          </div>
-
-          {image && (
-            <div className="mb-4">
-              <Image
-                src={URL.createObjectURL(image)}
-                alt="preview"
-                width={110}
-                height={110}
-                className="rounded-md"
-              />
-            </div>
-          )}
-
-          <button
-            type="submit"
-            className="w-full py-2 px-4 bg-blue-500 text-white rounded-md mb-16"
-          >
-            BUY
-          </button>
-
-          {error && <p className="text-red-500">{error}</p>}
-        </form>
+          </form>
+        </div>
       </div>
-    </Heator>
-  );
+    </>
+  </Heator>
+);
 };
 
 export default buy;

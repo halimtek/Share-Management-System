@@ -1,91 +1,50 @@
+import React from "react";
+import { formatDistanceToNow } from "date-fns";
 
-// import Layout from '../shareholder'
+const NewsCard = ({ adminnews }) => {
+  if (!adminnews) return null;
 
-// import React from 'react'
-// import PropTypes from 'prop-types'
-// import { FiAlertCircle } from 'react-icons/fi'
-// import { IoMdInformationCircle } from 'react-icons/io'
-
-// const NewsCard = ({adminnews}) => {
-//   // const icon = type === 'alert' ? <FiAlertCircle /> : <IoMdInformationCircle />
-//   // console.log(news.title)
-//   console.log(adminnews)
-  
-//   return (
-//     <>
-    
-//    {adminnews.map(item => (
-//           <h1>
-//             <div></div>{item.title}
-//             {item.author}
-//             {item.description}
-//             {item.content}
-//           </h1>
-         
-//         ))} 
-//     </>)
-//     // {/* <div className="font-bold">{adminnews}</div> */}
-//     // <div className="bg-white rounded-lg shadow-md p-4 mt-10 mb-4 flex items-center">
-//     //   <div className="mr-4 text-indigo-500">{icon}</div>
-//     //   <div>
-       
-//     //     <div className="font-bold">{title}</div>
-        
-//     //     <div className="text-gray-500">{description}</div>
-//     //     {image && (
-//     //       <div className="mt-4">
-      
-//     //         <img src={image} alt={title} className="rounded-lg" />
-//     //       </div>
-//     //     )}
-//     //   </div>
-//     //   <div>sdlk</div>
-   
-//   // )
-// }
-
-// // NewsCard.propTypes = {
-// //   title: PropTypes.string.isRequired,
-// //   description: PropTypes.string.isRequired,
-// //   type: PropTypes.oneOf(['alert', 'info']).isRequired,
-// //   image: PropTypes.string,
-// // }
-
-// export default NewsCard
-
-
-import Layout from '../shareholder'
-import {formatDistanceToNow} from "date-fns"
-
-import React from 'react'
-import PropTypes from 'prop-types'
-import { FiAlertCircle } from 'react-icons/fi'
-import { IoMdInformationCircle } from 'react-icons/io'
-
-const NewsCard = ({adminnews}) => {
-  // const icon = type === 'alert' ? <FiAlertCircle /> : <IoMdInformationCircle />
-  // console.log(news.title)
-  console.log(adminnews)
-  
   return (
-    <>
-    {adminnews && adminnews.map(item => (
-       <div >
-    <div className= 'w-full h-auto mx-auto p-8 shadow-2xl shadow-black rounded-xl items-center '>
-    <div className="font-bold text-blue-700">{item.title}</div>
-      
-      <div className='my-2'>{item.description}</div>  
-      <div className='my-4'>{item.content}</div>
-      <img src={`${process.env.NEXT_PUBLIC_API_URL}/${item.image}`} className='w-70 h-60'/>
-        
-       <p className='italic text-normal text-right text-blue-950 pb-0 '>{formatDistanceToNow(new Date(item.createdAt),{addSuffix:true})}</p>
-       
- </div>
-     </div>
-       
-        ))} 
-        </>
-        )
-        }
+    <div className="w-full h-auto mx-auto p-6 shadow-lg rounded-xl bg-white">
 
-export default NewsCard
+      {/* TITLE */}
+      <div className="font-bold text-blue-700 text-lg">
+        {adminnews.title}
+      </div>
+
+      {/* DESCRIPTION */}
+      <div className="my-2 text-gray-700">
+        {adminnews.description}
+      </div>
+
+      {/* CONTENT */}
+      <div className="my-4 text-gray-600 text-sm">
+        {adminnews.content}
+      </div>
+
+      {/* IMAGE (FIXED) */}
+      {adminnews.image && (
+        <img
+          src={
+            adminnews.image.startsWith("http")
+              ? adminnews.image
+              : `${process.env.NEXT_PUBLIC_API_URL}/${adminnews.image}`
+          }
+          className="w-full h-60 object-cover rounded-lg mt-3"
+          alt={adminnews.title}
+        />
+      )}
+
+      {/* TIME */}
+      {adminnews.createdAt && (
+        <p className="italic text-sm text-right text-blue-900 mt-3">
+          {formatDistanceToNow(new Date(adminnews.createdAt), {
+            addSuffix: true,
+          })}
+        </p>
+      )}
+    </div>
+  );
+};
+
+export default NewsCard;
